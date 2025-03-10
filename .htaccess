@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteBase /agoda/
+
+# Bỏ qua các file và thư mục thật
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Thêm [L] flag để dừng xử lý các rule khác
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Ngăn truy cập trực tiếp vào thư mục app
+RewriteRule ^app/ - [F,L]
