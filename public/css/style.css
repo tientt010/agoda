@@ -5,39 +5,77 @@
     box-sizing: border-box;
 }
 
+/* html {
+    min-height: 100%;
+    
+    background-attachment: fixed;
+    background-size: cover;
+} */
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background: #f4f4f4;
+    min-height: 100vh;
+    /* color: #333; */
+    margin: 0;
+    background-image: linear-gradient(
+        to left,
+        rgba(214, 48, 48, 0.818),
+        rgb(126, 23, 76)
+    );
+    /* Xóa background ở body vì đã set ở html */
 }
 
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 1rem 15px; /* Giảm padding từ 2rem xuống 1rem */
+    position: relative;
+    z-index: 1;
 }
 
-/* Header styles */
+/* Kiểu dáng phần header */
 header {
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 1rem 0;
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 1.5rem; /* Giảm padding */
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 15px 15px; /* Giảm border radius */
+    z-index: 100;
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 40px; /* Thêm min-height để đảm bảo chiều cao tối thiểu */
 }
 
 .nav-links a {
-    margin-left: 1rem;
+    margin-left: 0.8rem; /* Giảm margin */
     text-decoration: none;
-    color: #333;
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.9rem; /* Giảm font size */
+    transition: color 0.3s ease;
 }
 
-/* Auth form styles */
+.nav-links a:hover {
+    color: #ffd700;
+}
+
+.brand {
+    color: #fff;
+    font-size: 1.2rem; /* Giảm font size */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Kiểu dáng biểu mẫu xác thực */
 .auth-form {
     max-width: 500px;
     margin: 2rem auto;
@@ -99,7 +137,7 @@ nav {
     text-decoration: none;
 }
 
-/* Auth container styles */
+/* Kiểu dáng container xác thực */
 .auth-container {
     min-height: calc(100vh - 150px);
     display: flex;
@@ -123,7 +161,7 @@ nav {
     padding: 1.5rem;
 }
 
-/* Button hover effect */
+/* Hiệu ứng hover cho nút */
 .btn-hover {
     transition: all 0.3s ease;
 }
@@ -133,14 +171,14 @@ nav {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Input focus effect */
+/* Hiệu ứng focus cho input */
 .form-control:focus {
     border-color: #007bff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     transition: all 0.3s ease;
 }
 
-/* Card animation */
+/* Hiệu ứng cho thẻ */
 .card {
     transition: transform 0.3s ease;
 }
@@ -149,14 +187,14 @@ nav {
     transform: translateY(-5px);
 }
 
-/* Custom validation styles */
+/* Kiểu dáng xác thực tùy chỉnh */
 .was-validated .form-control:invalid:focus,
 .form-control.is-invalid:focus {
     border-color: #dc3545;
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
-/* Form check animation */
+/* Hiệu ứng cho checkbox */
 .form-check-input {
     transition: all 0.2s ease;
 }
@@ -165,7 +203,7 @@ nav {
     transform: scale(1.1);
 }
 
-/* Alert animation */
+/* Hiệu ứng cho thông báo */
 .alert {
     animation: fadeIn 0.5s ease;
 }
@@ -181,16 +219,20 @@ nav {
     }
 }
 
-/* Home Page Styles */
+/* Kiểu dáng trang chủ */
 .hero {
-    padding: 4rem 0;
+    padding: 2rem 0; /* Giảm padding của hero section */
     background: linear-gradient(135deg, #0062cc, #0099ff);
     color: white;
-    margin-top: -1rem;
+    margin-top: 1rem;
+    border-radius: 15px 15px 15px 15px;
 }
 
 .hero .card {
     background: rgba(255, 255, 255, 0.95);
+    padding: 1.5rem; /* Thêm padding cho card */
+    border: none;
+    border-radius: 12px;
 }
 
 .section-title {
@@ -209,7 +251,7 @@ nav {
     background: #007bff;
 }
 
-/* Card Styles */
+/* Kiểu dáng thẻ */
 .city-card,
 .hotel-card,
 .promo-card {
@@ -240,15 +282,48 @@ nav {
     margin: 1rem 0;
 }
 
-/* Search Form Styles */
+/* Kiểu dáng form tìm kiếm */
 .search-form {
     background: white;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive Styles */
+.search-form .form-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+}
+
+.search-form .form-control,
+.search-form .form-select {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    height: auto;
+}
+
+.search-form .btn-primary {
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    background: #0062cc;
+    border: none;
+}
+
+.search-form .row {
+    margin-bottom: 0.8rem; /* Giảm khoảng cách giữa các hàng */
+}
+
+.search-form .mb-3 {
+    margin-bottom: 0.8rem !important; /* Giảm margin bottom */
+}
+
+/* Kiểu dáng responsive */
 @media (max-width: 768px) {
     .hero {
         padding: 2rem 0;

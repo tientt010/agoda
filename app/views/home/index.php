@@ -72,7 +72,30 @@
             </div>
         </div>
     </section>
-
+    <!-- Promotions -->
+    <section class="promotions mb-5">
+        <div class="container">
+            <h2 class="section-title mb-4">Ưu đãi đặc biệt</h2>
+            <div class="row">
+                <?php foreach ($promotions as $promo): ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card promo-card animate__animated animate__fadeIn">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $promo['title']; ?></h5>
+                                <p class="card-text"><?php echo $promo['description']; ?></p>
+                                <div class="promo-code">
+                                    Mã: <strong><?php echo $promo['code']; ?></strong>
+                                </div>
+                                <div class="promo-expires">
+                                    Hết hạn: <?php echo date('d/m/Y', strtotime($promo['expires'])); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
     <!-- Popular Cities -->
     <section class="popular-cities mb-5">
         <div class="container">
@@ -123,28 +146,5 @@
         </div>
     </section>
 
-    <!-- Promotions -->
-    <section class="promotions mb-5">
-        <div class="container">
-            <h2 class="section-title mb-4">Ưu đãi đặc biệt</h2>
-            <div class="row">
-                <?php foreach ($promotions as $promo): ?>
-                    <div class="col-md-4 mb-4">
-                        <div class="card promo-card animate__animated animate__fadeIn">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo $promo['title']; ?></h5>
-                                <p class="card-text"><?php echo $promo['description']; ?></p>
-                                <div class="promo-code">
-                                    Mã: <strong><?php echo $promo['code']; ?></strong>
-                                </div>
-                                <div class="promo-expires">
-                                    Hết hạn: <?php echo date('d/m/Y', strtotime($promo['expires'])); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
+
 </div>

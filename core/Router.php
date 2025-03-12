@@ -8,13 +8,13 @@ class Router
     private $params = [];
     private $middlewares = [];
 
-    // Thêm route mới
     public function addRoute($path, $handler)
     {
-        // Convert route to regex pattern
-        $pattern = str_replace('/', '\/', $path);
-        $pattern = '/^' . $pattern . '$/';
-        $this->routes[$pattern] = $handler;
+        error_log("Adding route: " . $path . " => " . $handler);
+        $this->routes[$path] = [
+            'pattern' => '#^' . str_replace('/', '\/', $path) . '$#',
+            'handler' => $handler
+        ];
     }
 
     /**
@@ -51,50 +51,66 @@ class Router
         throw new \Exception("Middleware not found: {$middleware}");
     }
 
-    // Kiểm tra và match route
     public function match($url)
     {
-        foreach ($this->routes as $pattern => $handler) {
+        error_log("Matching URL: " . $url);
+        // Chuẩn hóa URL trước khi match
+        $url = '/' . trim($url, '/');
+
+        foreach ($this->routes as $path => $route) {
+            error_log("Testing route: {$path} against URL: {$url}");
+            $pattern = '#^' . str_replace('/', '\/', $path) . '$#';
             if (preg_match($pattern, $url, $matches)) {
                 array_shift($matches);
                 $this->params = $matches;
-                return $handler;
+                error_log("Route matched: " . $route['handler']);
+                return $route['handler'];
             }
         }
         return false;
     }
 
-    // Điều hướng request
     public function dispatch()
     {
         try {
-            $url = $_SERVER['REQUEST_URI'];
-            $url = str_replace('/agoda', '', $url);
+            // Get current URL
+            $fullUrl = $_SERVER['REQUEST_URI'];
 
-            if (empty($url)) {
-                $url = '/';
+            // Remove query string if exists
+            $path = parse_url($fullUrl, PHP_URL_PATH);
+
+            // Remove script name and project folder from start of URL
+            $basePath = dirname($_SERVER['SCRIPT_NAME']);
+            if ($basePath != '/') {
+                $path = substr($path, strlen($basePath));
             }
 
-            $handler = $this->match($url);
+            // Clean path
+            $path = '/' . trim($path, '/');
+
+            // Debug info
+            error_log("Full URL: " . $fullUrl);
+            error_log("Base Path: " . $basePath);
+            error_log("Clean Path: " . $path);
+
+            // Find matching route
+            $handler = $this->match($path);
 
             if ($handler) {
+                error_log("Found handler: " . $handler);
                 list($controller, $action) = explode('@', $handler);
                 $controller = "App\\Controllers\\{$controller}";
 
-                // Lấy middleware cho route hiện tại nếu có
-                $middlewares = $this->middlewares[$url] ?? [];
-
-                // Tạo callback thực thi controller
+                $middlewares = $this->middlewares[$path] ?? [];
                 $callback = function () use ($controller, $action) {
                     $controllerObject = new $controller();
                     return call_user_func_array([$controllerObject, $action], $this->params);
                 };
 
-                // Thực thi middleware chain
                 return $this->runMiddleware($middlewares, $callback);
             }
 
-            throw new \Exception("Route not found: {$url}");
+            throw new \Exception("No route found for: " . $path);
         } catch (\Exception $e) {
             $this->handleError($e);
         }
@@ -111,6 +127,6 @@ class Router
 
         error_log($e->getMessage());
         header("HTTP/1.1 500 Internal Server Error");
-        include 'app/views/errors/500.php';
+        include VIEW_PATH . '/errors/500.php'; // Changed from hardcoded path
     }
 }

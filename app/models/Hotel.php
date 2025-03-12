@@ -105,10 +105,16 @@ class Hotel extends BaseModel
             // Group by để tránh duplicate
             $sql .= " GROUP BY h.id";
 
-            // Thêm sắp xếp
+            // Validate và set default cho sort params 
             $validSortFields = ['star_rating', 'min_price', 'total_rooms'];
-            $sortField = in_array($sort['field'], $validSortFields) ? $sort['field'] : 'star_rating';
-            $sortDirection = strtoupper($sort['direction']) === 'ASC' ? 'ASC' : 'DESC';
+            $sortField = isset($sort['field']) && in_array($sort['field'], $validSortFields)
+                ? $sort['field']
+                : 'star_rating';
+
+            $sortDirection = isset($sort['direction']) && strtoupper($sort['direction']) === 'ASC'
+                ? 'ASC'
+                : 'DESC';
+
             $sql .= " ORDER BY {$sortField} {$sortDirection}";
 
             // Thực thi query
@@ -402,8 +408,7 @@ class Hotel extends BaseModel
      */
     private function getHotelImage($hotelId)
     {
-        // TODO: Implement actual image handling
-        // Tạm thời trả về ảnh mặc định
+        // Using PUBLIC_PATH constant
         return SITE_URL . '/public/images/hotels/default.jpg';
     }
 
@@ -414,8 +419,7 @@ class Hotel extends BaseModel
      */
     private function getCityImage($cityName)
     {
-        // TODO: Implement actual image handling
-        // Tạm thời trả về ảnh mặc định
+        // Using PUBLIC_PATH constant  
         return SITE_URL . '/public/images/cities/default.jpg';
     }
 }

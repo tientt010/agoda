@@ -1,12 +1,24 @@
-RewriteEngine On
-RewriteBase /agoda/
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Get base directory name 
+    RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+    RewriteRule ^(.*) - [E=BASE:%1]
+    
+    # Set RewriteBase if project in subfolder
+    RewriteBase /agoda/
 
-# Bỏ qua các file và thư mục thật
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+    # Allow access to assets
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+    
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
 
-# Thêm [L] flag để dừng xử lý các rule khác
-RewriteRule ^(.*)$ index.php [QSA,L]
-
-# Ngăn truy cập trực tiếp vào thư mục app
-RewriteRule ^app/ - [F,L]
+# Additional security
+<FilesMatch "\.(env|config|htaccess|git)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

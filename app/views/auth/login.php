@@ -1,50 +1,38 @@
-<div class="auth-container">
-    <div class="auth-form animate__animated animate__fadeIn">
-        <div class="card">
-            <div class="card-header text-center bg-primary text-white">
-                <h3 class="mb-0">Đăng nhập</h3>
-            </div>
-            <div class="card-body">
-                <?php if ($error = $this->getFlash('error')): ?>
-                    <div class="alert alert-danger animate__animated animate__shake">
-                        <?php echo $error; ?>
-                    </div>
-                <?php endif; ?>
+<div class="login-container">
+    <div class="ring">
+        <i style="--clr:#00ff0a"></i>
+        <i style="--clr:#ff0057"></i>
+        <i style="--clr:#fffd44"></i>
 
-                <form method="POST" action="<?php echo SITE_URL; ?>/login" class="needs-validation" novalidate>
-                    <div class="mb-3">
-                        <label class="form-label">Tên đăng nhập / Email / Số điện thoại</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            <input type="text" name="login_id" class="form-control" required
-                                placeholder="Nhập tên đăng nhập, email hoặc số điện thoại">
-                        </div>
-                    </div>
+        <div class="login-form animate__animated animate__fadeIn">
+            <h2>Đăng nhập</h2>
 
-                    <div class="mb-3">
-                        <label class="form-label">Mật khẩu</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                            <input type="password" name="password" class="form-control" required>
-                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </div>
-                    </div>
+            <?php if ($error = $this->getFlash('error')): ?>
+                <div class="alert alert-danger animate__animated animate__shake">
+                    <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
 
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                        <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
-                    </div>
+            <form method="POST" action="<?php echo SITE_URL; ?>/login">
+                <div class="inputBx">
+                    <input type="text" name="login_id" required
+                        placeholder="Email / Số điện thoại">
+                </div>
 
-                    <button type="submit" class="btn btn-primary w-100 mb-3 btn-hover">Đăng nhập</button>
+                <div class="inputBx">
+                    <input type="password" name="password" required
+                        placeholder="Mật khẩu">
+                </div>
 
-                    <div class="text-center">
-                        <a href="<?php echo SITE_URL; ?>/register" class="btn btn-link btn-hover">Đăng ký tài khoản mới</a>
-                        <a href="<?php echo SITE_URL; ?>/forgot-password" class="btn btn-link btn-hover">Quên mật khẩu?</a>
-                    </div>
-                </form>
-            </div>
+                <div class="inputBx">
+                    <input type="submit" value="Đăng nhập">
+                </div>
+
+                <div class="login-links">
+                    <a href="<?php echo SITE_URL; ?>/forgot-password">Quên mật khẩu?</a>
+                    <a href="<?php echo SITE_URL; ?>/register">Đăng ký</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>

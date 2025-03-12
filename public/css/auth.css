@@ -1,0 +1,184 @@
+/* Container đăng nhập */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh; /* Giảm chiều cao tối thiểu xuống */
+    margin-top: -2rem; /* Thêm margin âm để kéo form lên */
+}
+
+/* Vòng xoay */
+.ring {
+    position: relative;
+    width: 500px; /* Tăng từ 400px lên 500px */
+    height: 500px; /* Tăng từ 400px lên 500px */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ring i {
+    position: absolute;
+    inset: 0;
+    border: 2px solid #fff;
+    transition: 0.5s;
+}
+
+.ring i:nth-child(1) {
+    border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+    animation: rotate 6s linear infinite;
+}
+
+.ring i:nth-child(2) {
+    border-radius: 41% 44% 56% 59% / 38% 62% 63% 37%;
+    animation: rotate 4s linear infinite;
+}
+
+.ring i:nth-child(3) {
+    border-radius: 41% 44% 56% 59% / 38% 62% 63% 37%;
+    animation: rotate2 10s linear infinite;
+}
+
+/* Biểu mẫu đăng nhập */
+.login-form {
+    position: absolute;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-form h2 {
+    font-size: 1.8em;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Kiểu dáng ô input */
+.inputBx {
+    position: relative;
+    width: 100%;
+}
+
+.inputBx input {
+    width: 100%;
+    padding: 12px 15px;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    font-size: 1em;
+    color: #fff;
+    box-shadow: none;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+.inputBx input::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.inputBx input[type="submit"] {
+    background: linear-gradient(45deg, #ff357a, #fff172);
+    border: none;
+    cursor: pointer;
+}
+
+.login-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.login-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate2 {
+    0% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.ring:hover i {
+    border: 6px solid var(--clr);
+    filter: drop-shadow(0 0 20px var(--clr));
+}
+
+/* Kiểu dáng đăng ký */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh; /* Giảm chiều cao tối thiểu xuống */
+    margin-top: -2rem; /* Thêm margin âm để kéo form lên */
+}
+
+.register-form {
+    position: absolute;
+    width: 320px; /* Rộng hơn form login một chút */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.register-form h2 {
+    font-size: 1.8em;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.register-form .row {
+    display: flex;
+    gap: 10px;
+    margin: 0;
+}
+
+.register-form .col-md-6 {
+    flex: 1;
+    padding: 0;
+}
+
+/* Ghi đè một số kiểu dáng cho form đăng ký */
+.register-form .inputBx input {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.register-form .register-links {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-form .register-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+/* Kiểu dáng thông báo cho đăng ký */
+.register-form .alert {
+    background: rgba(220, 53, 69, 0.9);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,24 @@
+# Ignore default images
+/public/images/hotels/default2.jpg
+/public/images/cities/default2.jpg
+
+# Ignore logs
+/logs/*
+!/logs/.gitkeep
+
+# IDE files
+.vscode/
+.idea/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Cache & temp files
+*.cache
+*.tmp
