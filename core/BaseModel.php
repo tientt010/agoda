@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use Config\Database;  // Thêm dòng này
+use Config\Database;
 
 /**
  * BaseModel - Class cơ sở cho tất cả models:
@@ -40,8 +40,8 @@ class BaseModel
     public function __construct()
     {
         try {
-            // Sử dụng đường dẫn đầy đủ cho Database
-            $database = new \Config\Database();
+            // Sử dụng Singleton pattern cho Database
+            $database = Database::getInstance();
             $this->db = $database->connect();
 
             // Tăng timeout cho transactions

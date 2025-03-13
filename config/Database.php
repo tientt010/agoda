@@ -18,12 +18,23 @@ class Database
     /**
      * Constructor: Khởi tạo thông tin kết nối từ config
      */
-    public function __construct()
+    private function __construct()
     {
         $this->host = DB_HOST;
         $this->user = DB_USER;
         $this->pass = DB_PASS;
         $this->dbname = DB_NAME;
+    }
+
+    /**
+     * Singleton pattern - Lấy instance duy nhất
+     */
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
     /**

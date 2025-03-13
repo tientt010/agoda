@@ -18,14 +18,17 @@ class User extends BaseModel
     // Định nghĩa tên bảng
     protected $table = 'users';
 
-    // Các trường có thể gán giá trị hàng loạt
+    // Cập nhật danh sách các trường có thể cập nhật
     protected $fillable = [
         'username',
         'email',
         'password',
         'full_name',
         'phone',
-        'address'
+        'address',
+        'birth_date',
+        'gender',
+        'avatar'
     ];
 
     // Định nghĩa rules cho validation
@@ -34,7 +37,9 @@ class User extends BaseModel
         'email' => 'required|email',
         'password' => 'required|min:6',
         'full_name' => 'required|max:100',
-        'phone' => 'max:20'
+        'phone' => 'max:20',
+        'address' => 'max:255',
+        'gender' => 'in:male,female,other'
     ];
 
     /**
@@ -143,13 +148,32 @@ class User extends BaseModel
     public function updateProfile($id, $data)
     {
         // Loại bỏ các trường không được phép cập nhật
-        unset($data['email']); // Không cho phép đổi email
         unset($data['password']); // Password phải được cập nhật riêng
+        unset($data['username']); // Username không được thay đổi
+
+        // Kiểm tra email đã tồn tại chưa nếu có thay đổi
+        if (isset($data['email']) && !empty($data['email'])) {
+            $currentUser = $this->find($id);
+
+            if ($currentUser['email'] !== $data['email']) {
+                // Kiểm tra email mới đã tồn tại chưa
+                $existingUser = $this->where('email', $data['email'])->get();
+                if (!empty($existingUser)) {
+                    $this->errors['email'] = 'Email này đã được sử dụng bởi tài khoản khác';
+                    return false;
+                }
+            }
+        }
 
         // Validate dữ liệu
         $rules = array_intersect_key($this->rules, $data);
         if (!$this->validate($data, $rules)) {
             return false;
+        }
+
+        // Xử lý ngày trống
+        if (empty($data['birth_date'])) {
+            $data['birth_date'] = null;
         }
 
         return $this->update($id, $data);
@@ -198,5 +222,54 @@ class User extends BaseModel
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$userId]);
         return $stmt->fetchAll();
+    }
+
+    /**
+     * Lấy danh sách khách sạn yêu thích của user
+     * @param int $userId
+     * @return array
+     */
+    public function getFavoriteHotels($userId)
+    {
+        $sql = "SELECT h.*, f.created_at as favorited_at
+                FROM hotels h
+                INNER JOIN favorites f ON h.id = f.hotel_id 
+                WHERE f.user_id = ?
+                ORDER BY f.created_at DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Cập nhật avatar của user
+     * @param int $id ID của user
+     * @param string $fileName Tên file avatar mới
+     * @return bool Kết quả cập nhật
+     */
+    public function updateAvatar($id, $fileName)
+    {
+        try {
+            // Lấy avatar hiện tại
+            $currentUser = $this->find($id);
+            $currentAvatar = $currentUser['avatar'];
+
+            // Cập nhật avatar mới trong database
+            $result = $this->update($id, ['avatar' => $fileName]);
+
+            // Xóa avatar cũ nếu không phải avatar mặc định
+            if ($result && $currentAvatar != 'default.jpg') {
+                $avatarPath = ROOT_PATH . '/public/images/avatars/' . $currentAvatar;
+                if (file_exists($avatarPath)) {
+                    unlink($avatarPath);
+                }
+            }
+
+            return $result;
+        } catch (\Exception $e) {
+            $this->errors[] = $e->getMessage();
+            return false;
+        }
     }
 }

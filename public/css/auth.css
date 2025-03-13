@@ -1,10 +1,119 @@
 /* Container đăng nhập */
 .login-container {
     display: flex;
-    justify-content: center;
+    min-height: 100vh;
+    margin: 0 auto; /* Thêm auto margins để căn giữa */
+    padding: 0;
+    width: 85%; /* Giữ chiều rộng 90% */
+    max-width: 1400px; /* Giới hạn chiều rộng tối đa */
+    position: relative; /* Thêm position relative để giữ z-index hoạt động */
+}
+
+/* Cột hiển thị thương hiệu - chiếm 2/3 chiều rộng */
+.brand-column {
+    flex: 2;
+    display: flex;
     align-items: center;
-    min-height: 85vh; /* Giảm chiều cao tối thiểu xuống */
-    margin-top: -2rem; /* Thêm margin âm để kéo form lên */
+    justify-content: center; /* Căn giữa nội dung bên trong */
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    border-radius: 30px 30px 30px 30px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    margin-left: 10%; /*Giảm margin bên trái để hai cột gần nhau hơn*/
+    margin-top: 10px; /*Thêm margin bên trên để cách lề 
+    /* margin-right: 5%; /*Thêm margin bên phải để cách lề */
+}
+
+.brand-content {
+    text-align: center;
+    max-width: 80%;
+}
+
+.brand-logo {
+    width: 300px; /* Tăng kích thước từ 300px lên 400px */
+    height: auto;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7));
+    transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Hiệu ứng chữ cho branding */
+.brand-title {
+    color: #fff;
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    background: linear-gradient(to right, #ffffff, #f5a623);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowing 2s ease-in-out infinite alternate;
+    letter-spacing: 2px;
+    font-family: "Poppins", sans-serif;
+}
+
+@keyframes glowing {
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+            0 0 30px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.brand-tagline {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    max-width: 80%;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+}
+
+/* Tính năng brand */
+.brand-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    align-items: flex-start;
+    text-align: left;
+    padding-left: 15%; /* Giảm padding để cân đối hơn */
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateX(10px);
+}
+
+.feature-item i {
+    font-size: 1.5rem;
+    color: #f5a623;
+}
+
+/* Cột hiển thị form đăng nhập - chiếm 1/3 chiều rộng */
+.form-column {
+    flex: 1;
+    display: flex;
+    align-items: flex-start; /* Căn lề trên thay vì center */
+    justify-content: center;
+    position: relative;
+    padding-top: 10vh; /* Thêm padding-top để đẩy form lên trên */
+    /* padding-left: 10%; Thêm padding bên trái để cách lề */
+    /* margin-right: 2%; Thêm margin bên phải để cách form bên cạnh */
 }
 
 /* Vòng xoay */
@@ -41,11 +150,12 @@
 
 /* Biểu mẫu đăng nhập */
 .login-form {
-    position: absolute;
-    width: 260px;
+    position: relative;
+    width: 280px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    z-index: 10;
 }
 
 .login-form h2 {
@@ -122,25 +232,27 @@
 /* Kiểu dáng đăng ký */
 .register-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 85vh; /* Giảm chiều cao tối thiểu xuống */
-    margin-top: -2rem; /* Thêm margin âm để kéo form lên */
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
 
+/* Ghi đè một số kiểu dáng cho form đăng ký */
 .register-form {
-    position: absolute;
-    width: 320px; /* Rộng hơn form login một chút */
+    position: relative;
+    width: 320px; /* Rộng hơn form login một chút để chứa nhiều trường hơn */
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
+    z-index: 10;
 }
 
 .register-form h2 {
     font-size: 1.8em;
     color: #fff;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .register-form .row {
@@ -154,11 +266,26 @@
     padding: 0;
 }
 
-/* Ghi đè một số kiểu dáng cho form đăng ký */
 .register-form .inputBx input {
-    padding: 10px 15px;
+    padding: 10px 15px; /* Padding nhỏ hơn một chút so với form đăng nhập */
     margin-bottom: 8px;
     font-size: 0.95em;
+}
+
+/* Sử dụng chung login-links cho cả đăng ký */
+.register-form .login-links {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-form .alert {
+    background: rgba(220, 53, 69, 0.9);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 0.9em;
+    margin-bottom: 15px;
 }
 
 .register-form .register-links {
@@ -181,4 +308,42 @@
     padding: 10px 15px;
     font-size: 0.9em;
     margin-bottom: 15px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .login-container {
+        flex-direction: column-reverse;
+    }
+
+    .form-column,
+    .brand-column {
+        flex: 1;
+        width: 100%;
+        justify-content: center; /* Căn giữa khi ở chế độ mobile */
+        padding-right: 2rem; /* Đặt lại padding khi ở chế độ mobile */
+        padding-top: 2rem; /* Điều chỉnh padding trên khi ở chế độ mobile */
+        padding-left: 2rem; /* Đặt lại padding trái khi ở chế độ mobile */
+        margin-left: 0; /* Reset margin khi ở chế độ mobile */
+        margin-right: 0; /* Reset margin khi ở chế độ mobile */
+    }
+
+    .brand-column {
+        border-radius: 0;
+    }
+
+    .brand-title {
+        font-size: 2.5rem;
+    }
+
+    .brand-features {
+        padding-left: 0;
+        align-items: center;
+        text-align: center;
+    }
+
+    .ring {
+        width: 400px; /* Tăng từ 350px lên 400px */
+        height: 400px; /* Tăng từ 350px lên 400px */
+    }
 }

@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
+    # Bật rewrite engine
     RewriteEngine On
     
     # Get base directory name 
@@ -12,10 +13,17 @@
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
     
+    # Thêm condition để tránh loop vô hạn
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Chuyển hướng tất cả yêu cầu đến index.php
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
+
+# Debug cho error 500 trên hosting
+php_flag display_errors on
+php_value error_reporting 32767
 
 # Additional security
 <FilesMatch "\.(env|config|htaccess|git)">

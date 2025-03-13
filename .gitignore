@@ -1,14 +1,17 @@
+# Thư mục không cần theo dõi
+/tests/
+/vidumau/
+/logs/*
+!/logs/.gitkeep
+
 # Ignore default images
 /public/images/hotels/default2.jpg
 /public/images/cities/default2.jpg
 
-# Ignore logs
-/logs/*
-!/logs/.gitkeep
-
 # IDE files
 .vscode/
 .idea/
+.gitignore
 
 # System Files
 .DS_Store
@@ -22,3 +25,7 @@ Thumbs.db
 # Cache & temp files
 *.cache
 *.tmp
+
+# Config files không cần thiết
+/config/RewriteEngine*
+/config/*.rb
